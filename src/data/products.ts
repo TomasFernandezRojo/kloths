@@ -27,8 +27,8 @@ export const products: Product[] = [
       "Chomba oversize de algodón peinado con rayas anchas en crudo y gris oscuro. Bordado 'kloths.' en el pecho. Cuello con botones. Fit relajado.",
     sizes: ["S", "M", "L", "XL"],
     images: [
-      "/images/products/chomba-rayada-frente.jpg",
-      "/images/products/chomba-rayada-espalda.jpg",
+      "/images/products/chomba-rayada-frente.png",
+      "/images/products/chomba-rayada-espalda.png",
     ],
   },
   {
@@ -43,8 +43,8 @@ export const products: Product[] = [
       "Bermuda baggy de gabardina negra. Bordado 'kloths.' en la pierna y surfer line art en el bolsillo trasero. Fit amplio, costuras reforzadas.",
     sizes: ["38", "40", "42", "44"],
     images: [
-      "/images/products/bermuda-negra-frente.jpg",
-      "/images/products/bermuda-negra-espalda.jpg",
+      "/images/products/bermuda-negra-frente.png",
+      "/images/products/bermuda-negra-espalda.png",
     ],
   },
   {
@@ -59,8 +59,8 @@ export const products: Product[] = [
       "Bermuda baggy de denim lavado celeste. Alto gramaje, caída pesada. Logo bordado en el bolsillo trasero. Fit amplio y auténtico.",
     sizes: ["38", "40", "42", "44"],
     images: [
-      "/images/products/bermuda-jean-frente.jpg",
-      "/images/products/bermuda-jean-espalda.jpg",
+      "/images/products/bermuda-jean-frente.png",
+      "/images/products/bermuda-jean-espalda.png",
     ],
   },
   {
