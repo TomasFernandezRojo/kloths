@@ -1,41 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Drop01Grid from "./Drop01Grid";
 
 export const metadata: Metadata = {
   title: "Drop 01 — kloths.",
   description: "Drop 01 de kloths. La primera colección.",
 };
-
-export const drop01Products = [
-  {
-    slug: "chomba-rayada-d1",
-    name: "Chomba Rayada",
-    price: 45000,
-    sizes: ["S", "M", "L", "XL"],
-    imageFront: "/images/drop01/chomba-frente.jpg",
-    imageBack: "/images/drop01/chomba-dorso.jpg",
-    category: "Remeras",
-  },
-  {
-    slug: "bermuda-negra-d1",
-    name: "Bermuda Negra",
-    price: 45000,
-    sizes: ["38", "40", "42", "44"],
-    imageFront: "/images/drop01/bermuda-negra-frente.jpg",
-    imageBack: "/images/drop01/bermuda-negra-dorso.jpg",
-    category: "Bermudas",
-  },
-  {
-    slug: "bermuda-jean-celeste-d1",
-    name: "Bermuda Jean Celeste",
-    price: 45000,
-    sizes: ["38", "40", "42", "44"],
-    imageFront: "/images/drop01/bermuda-jean-frente.jpg",
-    imageBack: "/images/drop01/bermuda-jean-dorso.jpg",
-    category: "Bermudas",
-  },
-];
 
 export default function Drop01Page() {
   return (
@@ -78,50 +47,70 @@ export default function Drop01Page() {
               letterSpacing: "0.08em",
               textTransform: "uppercase",
             }}>
-              {drop01Products.length} piezas · Pasá el cursor para ver el dorso
+              Streetwear
             </p>
           </div>
         </div>
       </div>
 
-      {/* ── Grid (client component for hover) ───────────────────── */}
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "60px clamp(24px, 5vw, 40px) 100px" }}>
-        <Drop01Grid products={drop01Products} />
-
-        {/* Footer link */}
-        <div style={{
-          marginTop: "80px",
-          paddingTop: "32px",
-          borderTop: "1px solid #1E1E1E",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "16px",
+      {/* ── Coming soon ─────────────────────────────────────────── */}
+      <div style={{
+        maxWidth: "1280px",
+        margin: "0 auto",
+        padding: "0 clamp(24px, 5vw, 40px)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "40vh",
+        textAlign: "center",
+        gap: "16px",
+      }}>
+        <p style={{
+          fontFamily: "var(--font-playfair-face)",
+          fontSize: "clamp(3rem, 6vw, 5rem)",
+          fontWeight: 700,
+          fontStyle: "italic",
+          color: "#1E1E1E",
+          letterSpacing: "-0.02em",
         }}>
-          <p style={{
-            fontFamily: "var(--font-outfit-face)",
-            fontSize: "10px",
-            letterSpacing: "0.2em",
-            textTransform: "uppercase",
-            color: "#252525",
-          }}>
-            kloths. © 2026
-          </p>
-          <Link href="/shop" style={{
-            fontFamily: "var(--font-outfit-face)",
-            fontSize: "12px",
-            fontWeight: 300,
-            color: "#444444",
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            textDecoration: "none",
-            borderBottom: "1px solid #2A2A2A",
-            paddingBottom: "2px",
-          }}>
-            Drop 02 — colección actual →
-          </Link>
-        </div>
+          Próximamente.
+        </p>
+        <p style={{
+          fontFamily: "var(--font-outfit-face)",
+          fontSize: "12px",
+          fontWeight: 300,
+          color: "#333333",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}>
+          Estamos cargando los productos del Drop 01.
+        </p>
+      </div>
+
+      {/* Footer link */}
+      <div style={{
+        maxWidth: "1280px",
+        margin: "0 auto",
+        padding: "0 clamp(24px, 5vw, 40px) 80px",
+        borderTop: "1px solid #1E1E1E",
+        paddingTop: "32px",
+        display: "flex",
+        justifyContent: "flex-end",
+      }}>
+        <Link href="/shop" style={{
+          fontFamily: "var(--font-outfit-face)",
+          fontSize: "12px",
+          fontWeight: 300,
+          color: "#444444",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          textDecoration: "none",
+          borderBottom: "1px solid #2A2A2A",
+          paddingBottom: "2px",
+        }}>
+          Drop 02 — colección actual →
+        </Link>
       </div>
     </div>
   );
