@@ -12,13 +12,11 @@ type Product = {
   category: string;
 };
 
-export default function Drop01Grid({
-  products,
-  formatPrice,
-}: {
-  products: Product[];
-  formatPrice: (n: number) => string;
-}) {
+function formatPrice(n: number) {
+  return "$" + n.toLocaleString("es-AR");
+}
+
+export default function Drop01Grid({ products }: { products: Product[] }) {
   return (
     <div style={{
       display: "grid",
@@ -26,13 +24,13 @@ export default function Drop01Grid({
       gap: "24px",
     }}>
       {products.map((product) => (
-        <FlipCard key={product.slug} product={product} formatPrice={formatPrice} />
+        <FlipCard key={product.slug} product={product} />
       ))}
     </div>
   );
 }
 
-function FlipCard({ product, formatPrice }: { product: Product; formatPrice: (n: number) => string }) {
+function FlipCard({ product }: { product: Product }) {
   const [flipped, setFlipped] = useState(false);
 
   return (

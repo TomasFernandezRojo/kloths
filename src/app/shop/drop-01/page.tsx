@@ -37,10 +37,6 @@ export const drop01Products = [
   },
 ];
 
-function formatPrice(n: number) {
-  return "$" + n.toLocaleString("es-AR");
-}
-
 export default function Drop01Page() {
   return (
     <div style={{ background: "#0C0C0C", minHeight: "100vh" }}>
@@ -90,7 +86,7 @@ export default function Drop01Page() {
 
       {/* ── Grid (client component for hover) ───────────────────── */}
       <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "60px clamp(24px, 5vw, 40px) 100px" }}>
-        <Drop01Grid products={drop01Products} formatPrice={formatPrice} />
+        <Drop01Grid products={drop01Products} />
 
         {/* Footer link */}
         <div style={{
