@@ -40,9 +40,16 @@ function calcularEnvio(cp: string, subtotal: number): number {
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json() as { items: CartItemInput[]; postalCode: string };
+    const body = await req.json() as {
+      items: CartItemInput[];
+      postalCode: string;
+      phone?: string;
+      address?: string;
+      city?: string;
+      province?: string;
+    };
 
-    const { items: rawItems, postalCode } = body;
+    const { items: rawItems, postalCode, phone, address, city, province } = body;
 
     // Sanitize inputs
     if (!Array.isArray(rawItems) || rawItems.length === 0) {
@@ -50,6 +57,10 @@ export async function POST(req: NextRequest) {
     }
 
     const sanitizedCp = String(postalCode ?? "").trim().replace(/\D/g, "").slice(0, 8);
+    const sanitizedPhone = String(phone ?? "").trim().slice(0, 30);
+    const sanitizedAddress = String(address ?? "").trim().slice(0, 120);
+    const sanitizedCity = String(city ?? "").trim().slice(0, 80);
+    const sanitizedProvince = String(province ?? "").trim().slice(0, 60);
 
     // Validate and build items using SERVER-SIDE prices
     const validatedItems: {
@@ -59,6 +70,9 @@ export async function POST(req: NextRequest) {
       unit_price: number;
       currency_id: string;
     }[] = [];
+
+    // Keep a summary for the metadata
+    const itemsSummary: { name: string; size: string; quantity: number; price: number }[] = [];
 
     let subtotal = 0;
 
@@ -82,6 +96,8 @@ export async function POST(req: NextRequest) {
         unit_price: unitPrice,
         currency_id: "ARS",
       });
+
+      itemsSummary.push({ name: product.name, size, quantity, price: unitPrice });
     }
 
     // Shipping
@@ -106,8 +122,18 @@ export async function POST(req: NextRequest) {
           failure: `${baseUrl}/checkout/failure`,
           pending: `${baseUrl}/checkout/pending`,
         },
+        notification_url: `${baseUrl}/api/webhook`,
         statement_descriptor: "KLOTHS",
-        metadata: { postal_code: sanitizedCp },
+        metadata: {
+          postal_code: sanitizedCp,
+          phone: sanitizedPhone,
+          address: sanitizedAddress,
+          city: sanitizedCity,
+          province: sanitizedProvince,
+          items: itemsSummary,
+          subtotal,
+          shipping_cost: shippingCost,
+        },
       },
     });
 
@@ -121,7 +147,6 @@ export async function POST(req: NextRequest) {
     } catch {
       console.error("(no serializable)");
     }
-    // Si MP devuelve una respuesta HTTP con detalles
     const mpErr = err as Record<string, unknown>;
     if (mpErr?.cause) console.error("cause:", JSON.stringify(mpErr.cause, null, 2));
     if (mpErr?.response) console.error("response:", JSON.stringify(mpErr.response, null, 2));

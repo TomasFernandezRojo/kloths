@@ -95,47 +95,52 @@ export default function HomePage() {
       {/* ── Brand banner ──────────────────────────────────────────────────── */}
       <section
         ref={banner.ref as React.RefObject<HTMLElement>}
-        className="bg-[#111111] py-28 px-6 text-center overflow-hidden"
+        className="relative overflow-hidden"
+        style={{ height: "clamp(320px, 55vw, 680px)" }}
       >
-        {/* Gold line top */}
-        <div
-          className="w-16 h-px bg-[#C8A96E] mx-auto mb-10"
-          style={{
-            opacity: banner.visible ? 1 : 0,
-            transition: "opacity 600ms ease-out",
-          }}
-        />
-        <p
-          className="font-bold italic text-[#FAFAF7]/90 leading-snug"
-          style={{
-            fontFamily: "var(--font-playfair-face)",
-            fontSize: "clamp(2.5rem, 6vw, 5rem)",
-            opacity: banner.visible ? 1 : 0,
-            clipPath: banner.visible ? "inset(0 0 0 0)" : "inset(0 100% 0 0)",
-            transition: "opacity 700ms ease-out 200ms, clip-path 700ms cubic-bezier(0.4, 0, 0.2, 1) 200ms",
-          }}
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
         >
-          Born from salt &amp; sun.
-        </p>
-        <p
-          className="mt-4 text-base font-light text-[#FAFAF7]/50"
-          style={{
-            fontFamily: "var(--font-outfit-face)",
-            opacity: banner.visible ? 1 : 0,
-            transform: banner.visible ? "translateY(0)" : "translateY(12px)",
-            transition: "opacity 600ms ease-out 400ms, transform 600ms ease-out 400ms",
-          }}
-        >
-          Costa argentina. Desde 2025.
-        </p>
-        {/* Gold line bottom */}
-        <div
-          className="w-16 h-px bg-[#C8A96E] mx-auto mt-10"
-          style={{
-            opacity: banner.visible ? 1 : 0,
-            transition: "opacity 600ms ease-out 600ms",
-          }}
-        />
+          <source src="/banner.mp4" type="video/mp4" />
+        </video>
+
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-[#111111]/50" />
+
+        {/* Content */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center px-6 text-center">
+          <div
+            className="w-16 h-px bg-[#C8A96E] mx-auto mb-8"
+            style={{
+              opacity: banner.visible ? 1 : 0,
+              transition: "opacity 600ms ease-out",
+            }}
+          />
+          <p
+            className="font-bold italic text-white leading-snug"
+            style={{
+              fontFamily: "var(--font-playfair-face)",
+              fontSize: "clamp(2.8rem, 7vw, 6rem)",
+              opacity: banner.visible ? 1 : 0,
+              clipPath: banner.visible ? "inset(0 0 0 0)" : "inset(0 100% 0 0)",
+              transition: "opacity 700ms ease-out 200ms, clip-path 700ms cubic-bezier(0.4, 0, 0.2, 1) 200ms",
+            }}
+          >
+            Surfwear Argentino.
+          </p>
+          <div
+            className="w-16 h-px bg-[#C8A96E] mx-auto mt-8"
+            style={{
+              opacity: banner.visible ? 1 : 0,
+              transition: "opacity 600ms ease-out 500ms",
+            }}
+          />
+        </div>
       </section>
 
       {/* ── Sobre kloths. ─────────────────────────────────────────────────── */}

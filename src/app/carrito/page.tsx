@@ -34,6 +34,10 @@ function calcularEnvioCliente(cp: string, subtotal: number): number | null {
 export default function CartPage() {
   const { items, removeItem, updateQuantity, totalPrice } = useCart();
   const [postalCode, setPostalCode] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [province, setProvince] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -49,6 +53,22 @@ export default function CartPage() {
       setError("Ingresá tu código postal para continuar.");
       return;
     }
+    if (!phone.trim()) {
+      setError("Ingresá tu número de celular.");
+      return;
+    }
+    if (!address.trim()) {
+      setError("Ingresá tu dirección (calle y número).");
+      return;
+    }
+    if (!city.trim()) {
+      setError("Ingresá tu ciudad o localidad.");
+      return;
+    }
+    if (!province.trim()) {
+      setError("Ingresá tu provincia.");
+      return;
+    }
     setError("");
     setLoading(true);
     try {
@@ -62,6 +82,10 @@ export default function CartPage() {
             size: i.size,
           })),
           postalCode: postalCode.trim(),
+          phone: phone.trim(),
+          address: address.trim(),
+          city: city.trim(),
+          province: province.trim(),
         }),
       });
       const data = await res.json();
@@ -235,7 +259,6 @@ export default function CartPage() {
                   className="w-full border-b border-[#DDD8CE] bg-transparent text-sm font-light text-[#111111] py-1.5 outline-none placeholder:text-[#7A7568]/50 focus:border-[#C8A96E] transition-colors duration-200"
                   style={{ fontFamily: "var(--font-outfit-face)" }}
                 />
-                {/* Shipping preview */}
                 {shippingCost !== null && (
                   <p
                     className="mt-1.5 text-xs text-[#C8A96E]"
@@ -244,6 +267,56 @@ export default function CartPage() {
                     {shippingCost === 0 ? "✓ Envío gratis" : `Envío: ${formatPrice(shippingCost)}`}
                   </p>
                 )}
+              </div>
+
+              {/* Shipping data */}
+              <div className="mb-5">
+                <p
+                  className="text-xs tracking-[0.15em] uppercase text-[#111111] mb-3"
+                  style={{ fontFamily: "var(--font-outfit-face)" }}
+                >
+                  Datos de envío
+                </p>
+
+                <div className="space-y-3">
+                  <input
+                    type="tel"
+                    inputMode="tel"
+                    maxLength={30}
+                    value={phone}
+                    onChange={(e) => { setPhone(e.target.value); setError(""); }}
+                    placeholder="Celular (ej: +54 9 11 3072-0743)"
+                    className="w-full border-b border-[#DDD8CE] bg-transparent text-sm font-light text-[#111111] py-1.5 outline-none placeholder:text-[#7A7568]/50 focus:border-[#C8A96E] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-outfit-face)" }}
+                  />
+                  <input
+                    type="text"
+                    maxLength={120}
+                    value={address}
+                    onChange={(e) => { setAddress(e.target.value); setError(""); }}
+                    placeholder="Calle y número (ej: San Martín 542)"
+                    className="w-full border-b border-[#DDD8CE] bg-transparent text-sm font-light text-[#111111] py-1.5 outline-none placeholder:text-[#7A7568]/50 focus:border-[#C8A96E] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-outfit-face)" }}
+                  />
+                  <input
+                    type="text"
+                    maxLength={80}
+                    value={city}
+                    onChange={(e) => { setCity(e.target.value); setError(""); }}
+                    placeholder="Ciudad / Localidad"
+                    className="w-full border-b border-[#DDD8CE] bg-transparent text-sm font-light text-[#111111] py-1.5 outline-none placeholder:text-[#7A7568]/50 focus:border-[#C8A96E] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-outfit-face)" }}
+                  />
+                  <input
+                    type="text"
+                    maxLength={60}
+                    value={province}
+                    onChange={(e) => { setProvince(e.target.value); setError(""); }}
+                    placeholder="Provincia"
+                    className="w-full border-b border-[#DDD8CE] bg-transparent text-sm font-light text-[#111111] py-1.5 outline-none placeholder:text-[#7A7568]/50 focus:border-[#C8A96E] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-outfit-face)" }}
+                  />
+                </div>
               </div>
 
               <div className="space-y-3 mb-6">
