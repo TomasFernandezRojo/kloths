@@ -7,17 +7,25 @@ import { useCart } from "@/context/CartContext";
 
 const navLinks = [
   { label: "Inicio", href: "/" },
-  { label: "Shop", href: "/shop" },
   { label: "Nosotros", href: "/#nosotros" },
   { label: "Contacto", href: "/#contacto" },
+];
+
+const dropLinks = [
+  { label: "Drop 02", href: "/shop", sub: "Verano 25/26 — 7 piezas" },
+  { label: "Drop 01", href: "/shop/drop-01", sub: "Temporada anterior" },
 ];
 
 export default function Navbar() {
   const { totalItems, openDrawer } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
+  const [mobileShopOpen, setMobileShopOpen] = useState(false);
   const prevTotalItems = useRef(totalItems);
   const [badgeBounce, setBadgeBounce] = useState(false);
+  const shopRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -39,6 +47,15 @@ export default function Navbar() {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
+
+  const handleShopEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setShopOpen(true);
+  };
+
+  const handleShopLeave = () => {
+    timeoutRef.current = setTimeout(() => setShopOpen(false), 120);
+  };
 
   return (
     <>
@@ -66,21 +83,118 @@ export default function Navbar() {
 
           {/* Nav links — desktop */}
           <nav className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm font-light text-[#111111] link-underline transition-opacity duration-200"
+            <Link
+              href="/"
+              className="text-sm font-light text-[#111111] link-underline transition-opacity duration-200"
+              style={{ fontFamily: "var(--font-outfit-face)" }}
+            >
+              Inicio
+            </Link>
+
+            {/* Shop dropdown */}
+            <div
+              ref={shopRef}
+              className="relative"
+              onMouseEnter={handleShopEnter}
+              onMouseLeave={handleShopLeave}
+            >
+              <button
+                className="flex items-center gap-1 text-sm font-light text-[#111111] link-underline transition-opacity duration-200"
                 style={{ fontFamily: "var(--font-outfit-face)" }}
               >
-                {link.label}
-              </Link>
-            ))}
+                Shop
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  style={{
+                    transition: "transform 200ms ease",
+                    transform: shopOpen ? "rotate(180deg)" : "rotate(0deg)",
+                    marginTop: "1px",
+                  }}
+                >
+                  <polyline points="1 3 5 7 9 3" />
+                </svg>
+              </button>
+
+              {/* Dropdown */}
+              <div
+                style={{
+                  opacity: shopOpen ? 1 : 0,
+                  pointerEvents: shopOpen ? "auto" : "none",
+                  transform: shopOpen ? "translateY(0)" : "translateY(-6px)",
+                  transition: "opacity 180ms ease, transform 180ms ease",
+                  position: "absolute",
+                  top: "calc(100% + 12px)",
+                  left: "50%",
+                  translate: "-50%",
+                  minWidth: "180px",
+                  background: "#FAFAF7",
+                  border: "1px solid #E0DCD5",
+                  padding: "6px 0",
+                  zIndex: 60,
+                }}
+              >
+                {/* Arrow */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "-5px",
+                    left: "50%",
+                    transform: "translateX(-50%) rotate(45deg)",
+                    width: "8px",
+                    height: "8px",
+                    background: "#FAFAF7",
+                    borderLeft: "1px solid #E0DCD5",
+                    borderTop: "1px solid #E0DCD5",
+                  }}
+                />
+                {dropLinks.map((d) => (
+                  <Link
+                    key={d.href}
+                    href={d.href}
+                    onClick={() => setShopOpen(false)}
+                    className="block px-5 py-3 group hover:bg-[#F0EDE6] transition-colors duration-150"
+                  >
+                    <span
+                      className="block text-sm font-light text-[#111111]"
+                      style={{ fontFamily: "var(--font-outfit-face)" }}
+                    >
+                      {d.label}
+                    </span>
+                    <span
+                      className="block text-[10px] text-[#7A7568] mt-0.5 tracking-wide"
+                      style={{ fontFamily: "var(--font-outfit-face)" }}
+                    >
+                      {d.sub}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <Link
+              href="/#nosotros"
+              className="text-sm font-light text-[#111111] link-underline transition-opacity duration-200"
+              style={{ fontFamily: "var(--font-outfit-face)" }}
+            >
+              Nosotros
+            </Link>
+            <Link
+              href="/#contacto"
+              className="text-sm font-light text-[#111111] link-underline transition-opacity duration-200"
+              style={{ fontFamily: "var(--font-outfit-face)" }}
+            >
+              Contacto
+            </Link>
           </nav>
 
           {/* Right side: cart + hamburger */}
           <div className="flex items-center gap-4">
-            {/* Cart icon */}
             <button
               onClick={openDrawer}
               className="relative flex items-center hover:opacity-70 transition-opacity duration-200"
@@ -157,29 +271,91 @@ export default function Navbar() {
 
         {/* Links */}
         <nav className="flex flex-col items-center justify-center flex-1 gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-4xl font-light text-[#111111] link-underline tracking-tight"
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="text-4xl font-light text-[#111111] link-underline tracking-tight"
+            style={{ fontFamily: "var(--font-cormorant-face)" }}
+          >
+            Inicio
+          </Link>
+
+          {/* Shop accordion */}
+          <div className="flex flex-col items-center gap-3">
+            <button
+              onClick={() => setMobileShopOpen((v) => !v)}
+              className="flex items-center gap-2 text-4xl font-light text-[#111111] tracking-tight"
               style={{ fontFamily: "var(--font-cormorant-face)" }}
             >
-              {link.label}
-            </Link>
-          ))}
+              Shop
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 10 10"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                style={{
+                  transition: "transform 200ms ease",
+                  transform: mobileShopOpen ? "rotate(180deg)" : "rotate(0deg)",
+                }}
+              >
+                <polyline points="1 3 5 7 9 3" />
+              </svg>
+            </button>
+
+            <div
+              style={{
+                maxHeight: mobileShopOpen ? "120px" : "0px",
+                overflow: "hidden",
+                transition: "max-height 250ms ease",
+              }}
+            >
+              <div className="flex flex-col items-center gap-2 pt-1">
+                {dropLinks.map((d) => (
+                  <Link
+                    key={d.href}
+                    href={d.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="text-xl font-light text-[#7A7568] hover:text-[#111111] transition-colors duration-200"
+                    style={{ fontFamily: "var(--font-cormorant-face)" }}
+                  >
+                    {d.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <Link
+            href="/#nosotros"
+            onClick={() => setMenuOpen(false)}
+            className="text-4xl font-light text-[#111111] link-underline tracking-tight"
+            style={{ fontFamily: "var(--font-cormorant-face)" }}
+          >
+            Nosotros
+          </Link>
+          <Link
+            href="/#contacto"
+            onClick={() => setMenuOpen(false)}
+            className="text-4xl font-light text-[#111111] link-underline tracking-tight"
+            style={{ fontFamily: "var(--font-cormorant-face)" }}
+          >
+            Contacto
+          </Link>
         </nav>
 
         {/* Bottom social */}
         <div className="px-6 pb-8 flex gap-6">
           <a
-            href="https://www.instagram.com/kloths_"
+            href="https://www.instagram.com/kloths__/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs tracking-[0.2em] uppercase text-[#7A7568] link-underline"
             style={{ fontFamily: "var(--font-outfit-face)" }}
           >
-            @kloths_
+            @kloths__
           </a>
           <a
             href="https://wa.link/a179a4"
