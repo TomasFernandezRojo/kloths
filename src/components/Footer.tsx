@@ -13,8 +13,8 @@ const shopLinks = [
 
 const infoLinks = [
   { label: "Sobre kloths.", href: "/#nosotros" },
-  { label: "Envíos", href: "/#envios" },
-  { label: "Cambios y devoluciones", href: "/#cambios" },
+  { label: "Envíos", href: "/envios" },
+  { label: "Cambios y devoluciones", href: "/cambios" },
   { label: "Preguntas frecuentes", href: "/#faq" },
 ];
 
@@ -154,7 +154,7 @@ export default function Footer() {
           <ul className="space-y-4">
             <li>
               <a
-                href="https://www.instagram.com/kloths_"
+                href="https://www.instagram.com/kloths__/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2.5 text-sm font-light text-[#FAFAF7]/70 hover:text-[#FAFAF7] transition-colors duration-200"
