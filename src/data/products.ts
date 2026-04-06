@@ -36,7 +36,7 @@ export const products: Product[] = [
     slug: "bermuda-negra",
     name: "Bermuda Negra",
     subtitle: "Bermuda baggy de gabardina",
-    price: 45000,
+    price: 1,
     category: "Bermudas",
     drop: "DROP 2",
     description:
