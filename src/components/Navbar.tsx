@@ -72,10 +72,10 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="hover:opacity-70 transition-opacity duration-200">
             <Image
-              src="/images/logo-kloths.png"
-              alt="kloths."
-              width={110}
-              height={40}
+              src="/images/logo-klt.png"
+              alt="klt."
+              width={90}
+              height={36}
               style={{ height: "auto", display: "block" }}
               priority
             />
@@ -250,10 +250,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between px-6 py-5 border-b border-[#DDD8CE]">
           <Link href="/" onClick={() => setMenuOpen(false)}>
             <Image
-              src="/images/logo-kloths.png"
-              alt="kloths."
-              width={110}
-              height={40}
+              src="/images/logo-klt.png"
+              alt="klt."
+              width={90}
+              height={36}
               style={{ height: "auto", display: "block" }}
             />
           </Link>
