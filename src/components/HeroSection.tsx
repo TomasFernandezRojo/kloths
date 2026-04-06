@@ -47,7 +47,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content — posicionado al 60% de la altura */}
-      <div className="absolute z-10 flex flex-col items-center text-center px-6" style={{ top: "78%", left: 0, right: 0, transform: "translateY(-50%)" }}>
+      <div className="absolute z-10 flex flex-col items-center text-center px-6" style={{ bottom: "80px", left: 0, right: 0 }}>
         {/* Logo — imagen invertida a blanco */}
         <div
           className={`transition-all duration-[800ms] ease-out ${
