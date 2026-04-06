@@ -8,6 +8,20 @@ import { getProductBySlug, products, formatPrice } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import ProductCard from "@/components/ProductCard";
 
+const sizeGuideRemeras = [
+  { talle: "S", ancho: 54, largo: 72 },
+  { talle: "M", ancho: 57, largo: 74 },
+  { talle: "L", ancho: 60, largo: 76 },
+  { talle: "XL", ancho: 63, largo: 78 },
+];
+
+const sizeGuideBermudas = [
+  { talle: "38", cintura: 38, largo: 52 },
+  { talle: "40", cintura: 40, largo: 53 },
+  { talle: "42", cintura: 42, largo: 54 },
+  { talle: "44", cintura: 44, largo: 55 },
+];
+
 export default function ProductPage({
   params,
 }: {
@@ -25,6 +39,7 @@ export default function ProductPage({
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
   const [activeImage, setActiveImage] = useState(product.images[0]);
+  const [showSizeGuide, setShowSizeGuide] = useState(false);
 
   const related = products
     .filter((p) => p.id !== product.id && p.category === product.category)
@@ -37,8 +52,29 @@ export default function ProductPage({
     setTimeout(() => setAdded(false), 2000);
   };
 
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: `https://kloths.com.ar${product.images[0]}`,
+    brand: { "@type": "Brand", name: "kloths." },
+    offers: {
+      "@type": "Offer",
+      price: product.price,
+      priceCurrency: "ARS",
+      availability: "https://schema.org/InStock",
+      url: `https://kloths.com.ar/shop/${product.slug}`,
+    },
+  };
+
   return (
     <div className="bg-[#FAFAF7] min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-6 md:px-10 pt-8">
         <nav
@@ -169,6 +205,65 @@ export default function ProductPage({
                 </button>
               ))}
             </div>
+
+            {/* Size guide */}
+            {product.category !== "Accesorios" && (
+              <div className="mt-3">
+                <button
+                  onClick={() => setShowSizeGuide((v) => !v)}
+                  className="text-xs font-light text-[#C8A96E] hover:text-[#111111] transition-colors duration-200"
+                  style={{ fontFamily: "var(--font-outfit-face)" }}
+                >
+                  {showSizeGuide ? "Ocultar guía de talles ✕" : "Guía de talles →"}
+                </button>
+
+                {showSizeGuide && (
+                  <div className="mt-3 border border-[#E0DCD5] p-4">
+                    <p
+                      className="text-xs tracking-[0.1em] uppercase text-[#111111] mb-3"
+                      style={{ fontFamily: "var(--font-outfit-face)" }}
+                    >
+                      {product.category === "Remeras" ? "Remeras (Oversize)" : "Bermudas"}
+                    </p>
+                    <table className="w-full text-xs font-light text-[#111111]" style={{ fontFamily: "var(--font-outfit-face)" }}>
+                      <thead>
+                        <tr className="border-b border-[#E0DCD5]">
+                          <th className="text-left py-2 font-light text-[#7A7568]">Talle</th>
+                          {product.category === "Remeras" ? (
+                            <>
+                              <th className="text-left py-2 font-light text-[#7A7568]">Ancho (cm)</th>
+                              <th className="text-left py-2 font-light text-[#7A7568]">Largo (cm)</th>
+                            </>
+                          ) : (
+                            <>
+                              <th className="text-left py-2 font-light text-[#7A7568]">Cintura (cm)</th>
+                              <th className="text-left py-2 font-light text-[#7A7568]">Largo (cm)</th>
+                            </>
+                          )}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {product.category === "Remeras"
+                          ? sizeGuideRemeras.map((r) => (
+                              <tr key={r.talle} className="border-b border-[#E0DCD5]/50">
+                                <td className="py-2">{r.talle}</td>
+                                <td className="py-2">{r.ancho}</td>
+                                <td className="py-2">{r.largo}</td>
+                              </tr>
+                            ))
+                          : sizeGuideBermudas.map((r) => (
+                              <tr key={r.talle} className="border-b border-[#E0DCD5]/50">
+                                <td className="py-2">{r.talle}</td>
+                                <td className="py-2">{r.cintura}</td>
+                                <td className="py-2">{r.largo}</td>
+                              </tr>
+                            ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Quantity */}
@@ -237,7 +332,13 @@ export default function ProductPage({
               className="text-xs font-light text-[#7A7568]"
               style={{ fontFamily: "var(--font-outfit-face)" }}
             >
-              Envíos a todo el país
+              Envío gratis en compras de +$70.000 · Envíos a todo el país
+            </p>
+            <p
+              className="text-xs font-light text-[#7A7568]"
+              style={{ fontFamily: "var(--font-outfit-face)" }}
+            >
+              Pagá con MercadoPago: tarjeta de crédito, débito o transferencia
             </p>
             <p
               className="text-xs font-light text-[#7A7568]"

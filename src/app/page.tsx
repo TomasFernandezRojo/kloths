@@ -59,12 +59,12 @@ export default function HomePage() {
             >
               Verano 25/26
             </p>
-            <h2
+            <h1
               className="text-4xl md:text-5xl font-semibold italic text-[#111111] leading-tight tracking-[0.02em]"
               style={{ fontFamily: "var(--font-cormorant-face)" }}
             >
               Drop 2
-            </h2>
+            </h1>
             <p
               className="mt-3 text-base font-light text-[#7A7568]"
               style={{ fontFamily: "var(--font-outfit-face)" }}

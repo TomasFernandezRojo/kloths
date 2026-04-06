@@ -13,7 +13,7 @@ export default function AnnouncementBar() {
   return (
     <div className="relative bg-[#111111] text-[#C8A96E] py-2 overflow-hidden">
       {/* Marquee */}
-      <div className="overflow-hidden">
+      <div className="overflow-hidden" role="marquee" aria-live="off" aria-label="Anuncios">
         <div className="marquee-track">
           <span
             className="text-xs tracking-[0.2em] uppercase whitespace-nowrap pr-12"

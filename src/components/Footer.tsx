@@ -15,7 +15,6 @@ const infoLinks = [
   { label: "Sobre kloths.", href: "/#nosotros" },
   { label: "Envíos", href: "/envios" },
   { label: "Cambios y devoluciones", href: "/cambios" },
-  { label: "Preguntas frecuentes", href: "/#faq" },
 ];
 
 export default function Footer() {
@@ -74,7 +73,9 @@ export default function Footer() {
             </p>
           ) : (
             <form onSubmit={handleSubscribe} className="flex items-end gap-2">
+              <label htmlFor="newsletter-email" className="sr-only">Email para newsletter</label>
               <input
+                id="newsletter-email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -165,7 +166,7 @@ export default function Footer() {
                   <circle cx="12" cy="12" r="4" />
                   <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
                 </svg>
-                <span className="link-underline">@kloths_</span>
+                <span className="link-underline">@kloths__</span>
               </a>
             </li>
             <li>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kloths.com.ar/sitemap.xml
